@@ -1,6 +1,6 @@
 import style from './Navigation.module.css'; // style - название объекта, название сами придумали
 import classNames from 'classnames';
-import { Container } from '../Container/Container.jsx';
+import { Container } from '../Container/Container';
 
 
 export const Navigation = () => {
@@ -21,7 +21,7 @@ export const Navigation = () => {
                               <li className={style.item}>
                                     <button className={classNames(style.button, style.button_combo)}>Комбо</button>
                               </li>
-                              <li clasNames={style.item}>
+                              <li className={style.item}>
                                     <button className={classNames(style.button, style.button_shawarma)}>Шаурма</button>
                               </li>
                               <li className={style.item}>
