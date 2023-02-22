@@ -1,4 +1,4 @@
-import style from './Navigation.module.css'; // style - название объекта, название сами придумали
+import style from './Navigation.module.css'; // style - название объекта, название сами придумали. Нужен для покдлючения стилей
 import classNames from 'classnames';
 import { Container } from '../Container/Container';  // компонент Container
 

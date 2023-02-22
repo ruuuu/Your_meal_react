@@ -2,25 +2,36 @@ import style from './Catalog.module.css'; // style - название объек
 // import classNames from 'classnames';
 import { Container } from '../Container/Container.jsx';
 import { Order } from '../Order/Order.jsx';
+import { CatalogProduct } from '../CatalogProduct/CatalogProduct.jsx';
 
-
-
+const goodsList = [
+      { title: 'Мясная бомба' },
+      { title: 'Супер сырный' },
+      { title: 'Сытный' },
+      { title: 'Итальянский' },
+      { title: 'Вечная классика' },
+      { title: 'Тяжелый удар' },
+];
 
 
 export const Catalog = () => {
 
       return (
-            <section className="catalog">
-                  <Container className="catalog__container">
+            <section className={style.catalog}>
+                  <Container className={style.container}>
                         <Order />
-                        <div className="catalog__wrapper">
-                              <h2 className="catalog__title">Бургеры</h2>
 
-                              <div className="catalog__wrap_list">
-                                    <ul clasNames="catalog__list">
-                                          <li className="catalog__item">
+                        <div className={style.wrapper}>
+                              <h2 className={style.title}>Бургеры</h2>
 
-                                          </li>
+                              <div className={style.wrap_list}>
+                                    <ul className={style.list}>
+                                          {goodsList.map(item => ( // рендерим карточки продуктов
+                                                <li className={style.item}>
+                                                      <CatalogProduct title={item.title} />
+                                                </li>
+                                          )
+                                          )}
                                     </ul>
                               </div>
                         </div>

@@ -2,20 +2,22 @@ import style from './CatalogProduct.module.css'; // style - название о�
 
 
 
-export const CatalogProduct = (props) => (
+export const CatalogProduct = (props) => (   // props нужен чтобы передввать значния элементов
 
       <article className="product">
-            <img src="img/photo-5.jpg" alt="Мясная бомба" className="product__image" />
+            <img src="img/photo-5.jpg" alt={props.title} className={style.image} />
 
-            <p className="product__price">689<span className="currency">₽</span></p>
+            <p className={style.price}>689
+                  <span className="currency">₽</span>
+            </p>
 
-            <h3 className="product__title">
-                  <button className="product__detail">Мясная бомба</button>
+            <h3 className={style.title}>
+                  <button className={style.detail}>{props.title}</button>
             </h3>
 
-            <p className="product__weight">520г</p>
+            <p className={style.weight}>520г</p>
 
-            <button className="product__add" type="button">Добавить</button>
+            <button className={style.add} type="button">Добавить</button>
       </article>
 
 );
