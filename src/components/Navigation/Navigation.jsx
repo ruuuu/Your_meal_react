@@ -1,6 +1,6 @@
 import style from './Navigation.module.css'; // style - название объекта, название сами придумали
 import classNames from 'classnames';
-import { Container } from '../Container/Container';
+import { Container } from '../Container/Container';  // компонент Container
 
 
 export const Navigation = () => {
