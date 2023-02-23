@@ -16,6 +16,11 @@
       width: 8px;
 }
 
+.minus:disabled {
+      /* если кнопка задзебленная */
+      cursor: default;
+}
+
 .plus {
       width: 8px;
 }
