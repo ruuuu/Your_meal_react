@@ -4,14 +4,14 @@ import { Container } from '../Container/Container.jsx';
 import { Order } from '../Order/Order.jsx';
 import { CatalogProduct } from '../CatalogProduct/CatalogProduct.jsx';
 
-const goodsList = [
-      { title: 'Мясная бомба' },
-      { title: 'Супер сырный' },
-      { title: 'Сытный' },
-      { title: 'Итальянский' },
-      { title: 'Вечная классика' },
-      { title: 'Тяжелый удар' },
-];
+// const goodsList = [
+//       { title: 'Мясная бомба' },
+//       { title: 'Супер сырный' },
+//       { title: 'Сытный' },
+//       { title: 'Итальянский' },
+//       { title: 'Вечная классика' },
+//       { title: 'Тяжелый удар' },
+// ];
 
 
 export const Catalog = () => {

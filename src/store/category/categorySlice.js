@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import { API_URI, POSTFIX } from "../../const";
 
 // редьюсер, на основе него создается action, с помощью которого можно управзлять данными внутри  текущего state:
 const initialState = {              // нач состяние
@@ -24,22 +24,22 @@ const initialState = {              // нач состяние
 // createAsyncThunk встроенная фукния, выполняет асинхрон действия:
 export const categoryRequestAsync = createAsyncThunk(
       'category/fetch',   // category/fetch название action, задали такое имя сами
-      (data, obj) => {
+      () => {
 
             return fetch(`${API_URI}${POSTFIX}/category`)
-                  .then(req => req.json())  //  req-ответ от сервера, return req.json(). обрабатываем промис
-                  .catch(error => {
-                        return { error }    // возаращет объект, попадет в action.payload
-                  })
-      }  // результат этого колбэка попадает в action extraReducers:
+                  .then(req => req.json())                  //  req-ответ от сервера, return req.json(). обрабатываем промис
+                  .catch(error => ({ error }))              // возаращет объект, попадет в action.payload
+
+
+      }  // результат этого колбэка попадает в action(в extraReducers)
 )
 
 
 
 // categorySlice - объект содержащий редьюсеры и actions
 const categorySlice = createSlice({
-      name: 'category',                                           // сами придумали названеи
-      initialState,
+      name: 'category',                                           //  название action, сами придумали
+      initialState: initialState,
       reducers: {                               // здесь будут actions:
             changeCategory(state, action) {   //  Делает выбранную  категрию активной
                   console.log('state ', state);
@@ -47,7 +47,7 @@ const categorySlice = createSlice({
                   state.activeCategory = action.payload.indexcategory;                          // свойстов  indexcategory придумали сами(индекс активной катергрии)
             },
       },
-      // автмоатич создают action:
+      // extraReducers автмоатич создают actions:
       extraReducers: {
             [categoryRequestAsync.pending.type]: (state) => {
                   state.error = ''; // error это свойстов в initialState
@@ -60,7 +60,6 @@ const categorySlice = createSlice({
                   state.error = action.payload.error;
             }
       }
-
 });
 
 
