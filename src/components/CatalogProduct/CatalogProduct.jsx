@@ -1,21 +1,23 @@
 import style from './CatalogProduct.module.css'; // style - название объекта, название сами придумали
+import { API_URI } from '../../const';
 
 
 
-export const CatalogProduct = (props) => (   // props нужен чтобы передввать значния элементов
+// { item } -дектструктуризация: item-{id, title, price, weight}
+export const CatalogProduct = ({ item }) => (   // props= ({ item } нужен чтобы передввать значния элементам
 
       <article className="product">
-            <img src="img/photo-5.jpg" alt={props.title} className={style.image} />
+            <img src={`${API_URI}/${item.image}`} alt={item.title} className={style.image} />
 
-            <p className={style.price}>689
+            <p className={style.price}>{item.price}
                   <span className="currency">₽</span>
             </p>
 
             <h3 className={style.title}>
-                  <button className={style.detail}>{props.title}</button>
+                  <button className={style.detail}>{item.title}</button>
             </h3>
 
-            <p className={style.weight}>520г</p>
+            <p className={style.weight}>{item.weight}г</p>
 
             <button className={style.add} type="button">Добавить</button>
       </article>

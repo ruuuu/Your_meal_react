@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_URI, POSTFIX } from "../../const";
 
 // редьюсер, на основе него создается action, с помощью которого можно управзлять данными внутри  текущего state:
+//  инициализируем state:
 const initialState = {              // нач состяние
       category: [
             // { title: 'burger', rus: 'Бургеры', image: '/img/burger.png' },  //    с сервера получем 

@@ -3,18 +3,50 @@ import style from './Catalog.module.css'; // style - название объек
 import { Container } from '../Container/Container.jsx';
 import { Order } from '../Order/Order.jsx';
 import { CatalogProduct } from '../CatalogProduct/CatalogProduct.jsx';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { productRequestAsync } from '../../store/product/productSlice';
 
-// const goodsList = [
-//       { title: 'Мясная бомба' },
-//       { title: 'Супер сырный' },
-//       { title: 'Сытный' },
-//       { title: 'Итальянский' },
-//       { title: 'Вечная классика' },
-//       { title: 'Тяжелый удар' },
+
+// const goodsList = [ // с сервера получаем товары
+
+//       //       { title: 'Мясная бомба' },
+//       //       { title: 'Супер сырный' },
+//       //       { title: 'Сытный' },
+//       //       { title: 'Итальянский' },
+//       //       { title: 'Вечная классика' },
+//       //       { title: 'Тяжелый удар' },
 // ];
 
 
+
+
+
 export const Catalog = () => {
+
+
+      //{ products } -это деструтктуризция
+      const { products } = useSelector((state) => {  // useSelector -хук, products = [ {}, {}, {} ]
+            return state.product;                     // state.product  взяли из itinitialState ProductSlice.js
+      });
+      console.log('{ products } ', { products });
+
+
+      const { category, activeCategory } = useSelector((state) => {
+            return state.category;
+      });
+      console.log('{ category }  ', { category });
+
+
+      const dispatch = useDispatch();   //  чтобы получить action. Вернет фукнцию
+
+      useEffect(() => {
+            if (category.length) {
+                  dispatch(productRequestAsync(category[activeCategory].title));
+            }
+      }, [category, activeCategory]);  // если изменится category или activeCategory то запускается productRequestAsync
+
+
 
       return (
             <section className={style.catalog}>
@@ -22,13 +54,13 @@ export const Catalog = () => {
                         <Order />
 
                         <div className={style.wrapper}>
-                              <h2 className={style.title}>Бургеры</h2>
+                              <h2 className={style.title}>{category[activeCategory]?.rus}</h2>
 
                               <div className={style.wrap_list}>
                                     <ul className={style.list}>
-                                          {goodsList.map((item, i) => ( // рендерим карточки продуктов
-                                                <li key={i} className={style.item}>
-                                                      <CatalogProduct title={item.title} />
+                                          {products.map((item, i) => (                         // рендерим карточки продуктов, ствим атрибут  key={id} чтобф реакт не ругался
+                                                <li key={item.id} className={style.item}>
+                                                      <CatalogProduct item={item} />
                                                 </li>
                                           )
                                           )}

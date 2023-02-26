@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { API_URI, POSTFIX } from "../../const";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 
 //  инициализируем state:
@@ -9,7 +10,7 @@ const initilState = {
 };
 
 
-
+// action срабатывают на основе  createAsyncThunk, с помощью функуии productRequestAsync:
 export const productRequestAsync = createAsyncThunk(
       'product/fetch',                                      // product/fetch название action, задали такое имя сами
       (category) => {
@@ -18,7 +19,7 @@ export const productRequestAsync = createAsyncThunk(
                   .catch(error => ({ error }))              // возаращет объект, попадет в action.payload
 
 
-      }  // результат этого колбэка попадает в action(в extraReducers)
+      }  // результат этого колбэка попадает в action(котрый в extraReducers)
 )
 
 
@@ -26,7 +27,7 @@ export const productRequestAsync = createAsyncThunk(
 
 const productSlice = createSlice({
       name: 'product',                                 //  название action, сами придумали
-      initialState: initialState,
+      initialState: initilState,
       extraReducers: (builder) => {
             // addCase()- добавляет редьюсер, метод возвращает builder           // здесь будут actions: обрабабтываем данные пришедшие в сервера
             builder.addCase(productRequestAsync.pending.type, (state) => {
