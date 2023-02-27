@@ -1,4 +1,6 @@
 // Корзина:
+import { createSlice } from "@reduxjs/toolkit";
+
 
 // товары корзины хрнаим в LocalStorage,  orderList = [{},{},{}] спсок товаров в Корзине
 const initialState = {
@@ -7,12 +9,29 @@ const initialState = {
 
 
 const orderSlice = createSlice({
-      name: 'order',                            // название action
+      name: 'order',                            // название action, в Redux  будет отображаться как order/addProduct
       initialState: initialState,
-      reducer: {
+      reducers: {  // здесь будут actions: 
             addProduct: (state, action) => {
+                  console.log('action.payload in orderSlice ', action.payload);                 // {id: 323423}
+                  console.log('...action.payload in orderSlice ', { ...action.payload });        // {id: 323423}
+                  const product = state.orderList.find((productItem) => {           // переьирает массив state.orderList и возврашает элемент, удовлевор условию
+                        return productItem.id === action.payload.id                 // action.payload - объект, action.payload.id  товар котрый выбрали
+                  });
 
+                  if (product) {
+                        product.count += 1;
+                  }
+                  else {
+                        state.orderList.push({ ...action.payload, count: 1 });      // orderList это своойство initialState={} , добавялем один товар в Корзину
+                  }
+
+                  console.log('orderSlice.actions ', orderSlice.actions);
             }
       }
 
-})
+});
+
+
+export const { addProduct } = orderSlice.actions;  // возвращаем addProduct
+export default orderSlice.reducer;

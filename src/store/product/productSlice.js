@@ -26,10 +26,10 @@ export const productRequestAsync = createAsyncThunk(
 
 
 const productSlice = createSlice({
-      name: 'product',                                 //  название action, сами придумали
+      name: 'product',                                 //  название action, сами придумали,
       initialState: initilState,
       extraReducers: (builder) => {
-            // addCase()- добавляет редьюсер, метод возвращает builder           // здесь будут actions: обрабабтываем данные пришедшие в сервера
+            // addCase() добавляет редьюсер, метод возвращает builder           // здесь будут actions: обрабабтываем данные пришедшие в сервера
             builder.addCase(productRequestAsync.pending.type, (state) => {
                   state.error = ''; // error это свойстов в initialState
             })

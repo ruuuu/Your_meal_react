@@ -4,8 +4,8 @@ import { API_URI, POSTFIX } from "../../const";
 // редьюсер, на основе него создается action, с помощью которого можно управзлять данными внутри  текущего state:
 //  инициализируем state:
 const initialState = {              // нач состяние
-      category: [
-            // { title: 'burger', rus: 'Бургеры', image: '/img/burger.png' },  //    с сервера получем 
+      category: [ //    с сервера получем 
+            // { title: 'burger', rus: 'Бургеры', image: '/img/burger.png' },  
             // { title: 'snack', rus: 'Закуски', image: '/img/snack.png' },
             // { title: 'hot-dog', rus: 'Хот-доги', image: '/img/hot-dog.png' },
             // { title: 'combo', rus: 'Комбо', image: '/img/combo.png' },
@@ -39,13 +39,14 @@ export const categoryRequestAsync = createAsyncThunk(
 
 // categorySlice - объект содержащий редьюсеры и actions
 const categorySlice = createSlice({
-      name: 'category',                                           //  название action, сами придумали
+      name: 'category',                                           //  название action, сами придумали.  в Redux  будет отображаться как category/changeCategory
       initialState: initialState,
       reducers: {                               // здесь будут actions:
-            changeCategory(state, action) {   //  Делает выбранную  категрию активной
+            changeCategory(state, action) {     //  Делает выбранную  категрию активной, changeCategory()=>{} это action
                   console.log('state in categorySlice ', state);
-                  console.log('action in categorySlice ', action);                                               // { type: category/changeCategory, payload: indexcategory: i }
-                  state.activeCategory = action.payload.indexcategory;                          // свойстов  indexcategory придумали сами(индекс активной катергрии)
+                  console.log('action in categorySlice ', action);
+                  console.log('action.payload ', action.payload);                                  // {indexcategory: 6} ,  { type: category/changeCategory, payload: indexcategory: i }
+                  state.activeCategory = action.payload.indexcategory;                             //  action.payload - объект , свойстов  indexcategory придумали сами(индекс активной катергрии)
             },
       },
       // extraReducers автмоатич создают actions:

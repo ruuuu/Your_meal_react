@@ -22,7 +22,7 @@ export const Order = () => {
                               <ul className={style.list}>
 
                                     {OrderList.map((item, i) => (
-                                          <OrderGoods key={i} item={item} />
+                                          <OrderGoods key={i} item={item} />  //  key={i}добавили чтоб реакт не ругался
                                     )
                                     )}
                               </ul>
