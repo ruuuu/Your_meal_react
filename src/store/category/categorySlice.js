@@ -43,8 +43,8 @@ const categorySlice = createSlice({
       initialState: initialState,
       reducers: {                               // здесь будут actions:
             changeCategory(state, action) {   //  Делает выбранную  категрию активной
-                  console.log('state ', state);
-                  console.log('action ', action);                                               // { type: category/changeCategory, payload: indexcategory: i }
+                  console.log('state in categorySlice ', state);
+                  console.log('action in categorySlice ', action);                                               // { type: category/changeCategory, payload: indexcategory: i }
                   state.activeCategory = action.payload.indexcategory;                          // свойстов  indexcategory придумали сами(индекс активной катергрии)
             },
       },
