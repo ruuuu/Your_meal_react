@@ -5,7 +5,7 @@ import { addProduct } from '../../store/order/orderSlice.js';
 
 
 
-// { item } -дектструктуризация: item-{id, title, price, weight}
+// { item } -дектструктуризация: item={id, title, price, weight}
 export const CatalogProduct = ({ item }) => {
       // props= ({ item } нужен чтобы передввать значния элементам
 
@@ -15,8 +15,7 @@ export const CatalogProduct = ({ item }) => {
             <article className="product">
                   <img src={`${API_URI}/${item.image}`} alt={item.title} className={style.image} />
 
-                  <p className={style.price}>{item.price}
-                        <span className="currency">₽</span>
+                  <p className={style.price}>{item.price}<span className="currency">₽</span>
                   </p>
 
                   <h3 className={style.title}>

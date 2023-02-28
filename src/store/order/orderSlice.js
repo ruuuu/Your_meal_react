@@ -8,6 +8,24 @@ const initialState = {
 };
 
 
+// свой middleware:
+export const localStorageMiddleware = store => next => action => {
+      //console.log('action ', action);
+      const nextAction = next(action);
+      if (nextAction.type.startsWith('order/')) {
+            const orderList = store.getState().order.orderList;
+            localStorage.setItem('order', JSON.stringify(orderList));
+            console.log('orderList ', orderList);
+      }
+
+      return nextAction; // возвращет action, каждый раз когда вызывается action, вызывается каждый middleware
+}
+
+
+
+
+
+
 const orderSlice = createSlice({
       name: 'order',                            // название action, в Redux  будет отображаться как order/addProduct
       initialState: initialState,
@@ -16,10 +34,10 @@ const orderSlice = createSlice({
                   console.log('action.payload in orderSlice ', action.payload);                 // {id: 323423}
                   console.log('...action.payload in orderSlice ', { ...action.payload });        // {id: 323423}
                   const product = state.orderList.find((productItem) => {           // переьирает массив state.orderList и возврашает элемент, удовлевор условию
-                        return productItem.id === action.payload.id                 // action.payload - объект, action.payload.id  товар котрый выбрали
+                        return (productItem.id === action.payload.id);               // action.payload - объект, action.payload.id  товар котрый выбрали
                   });
 
-                  if (product) {
+                  if (product) {                                                    // если добавленный элементе етсь в коризне
                         product.count += 1;
                   }
                   else {

@@ -1,9 +1,9 @@
 // здесб подключаем компоненты
 
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import categoryReducer from "./category/categorySlice.js";  // categoryReducer здесь дали название сами 
 import productReducer from "./product/productSlice.js";     // productReducer здесь дали название сами 
-import orderReducer from "./order/orderSlice.js";
+import orderReducer, { localStorageMiddleware } from "./order/orderSlice.js";
 
 
 
@@ -14,5 +14,13 @@ export const store = configureStore({
             category: categoryReducer,          // category это state
             product: productReducer,            // product это state
             order: orderReducer,
+      },
+
+
+      middleware: getDefaultMiddleware => {
+            const middlewares = getDefaultMiddleware().concat(localStorageMiddleware)  // getDefaultMiddleware()  получим массив всех middleware
+            console.log('middlewares ', middlewares)
+            return middlewares;
       }
+
 });
