@@ -35,7 +35,8 @@ const productSlice = createSlice({
             })
             builder.addCase(productRequestAsync.fulfilled.type, (state, action) => {
                   state.error = '';
-                  state.products = action.payload;                                  // сервер возаращет массив продуктов. products это свовойство в initialState
+                  console.log('action.payload in ProductSlice ', action.payload);         // [{},{},{}] -массив продуктов
+                  state.products = action.payload;                                        // сервер возаращет массив продуктов. products это свовойство в initialState
             })
             builder.addCase(productRequestAsync.rejected.type, (state, action) => {
                   state.error = action.payload.error;

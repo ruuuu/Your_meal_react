@@ -45,7 +45,7 @@ const categorySlice = createSlice({
             changeCategory(state, action) {     //  Делает выбранную  категрию активной, changeCategory()=>{} это action
                   console.log('state in categorySlice ', state);
                   console.log('action in categorySlice ', action);
-                  console.log('action.payload ', action.payload);                                  // {indexcategory: 6} ,  { type: category/changeCategory, payload: indexcategory: i }
+                  console.log('action.payload in categorySlice ', action.payload);                                  // {indexcategory: 6} ,  { type: category/changeCategory, payload: indexcategory: i }
                   state.activeCategory = action.payload.indexcategory;                             //  action.payload - объект , свойстов  indexcategory придумали сами(индекс активной катергрии)
             },
       },
