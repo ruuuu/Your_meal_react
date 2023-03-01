@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_URI, POSTFIX } from "../../const";
 
+
+
 // редьюсер, на основе него создается action, с помощью которого можно управзлять данными внутри  текущего state:
 //  инициализируем state:
 const initialState = {              // нач состяние
@@ -23,17 +25,17 @@ const initialState = {              // нач состяние
 
 
 // createAsyncThunk встроенная фукния, выполняет асинхрон действия:
+// запррос данных с сервера
 export const categoryRequestAsync = createAsyncThunk(
-      'category/fetch',   // category/fetch название action, задали такое имя сами
+      'category/fetch',                                     // category/fetch название action, задали такое имя сами
       () => {
-
             return fetch(`${API_URI}${POSTFIX}/category`)
                   .then(req => req.json())                  //  req-ответ от сервера, return req.json(). обрабатываем промис
                   .catch(error => ({ error }))              // возаращет объект, попадет в action.payload
 
 
       }  // результат этого колбэка попадает в action(в extraReducers)
-)
+);
 
 
 
@@ -49,19 +51,19 @@ const categorySlice = createSlice({
                   state.activeCategory = action.payload.indexcategory;                             //  action.payload - объект , свойстов  indexcategory придумали сами(индекс активной катергрии)
             },
       },
-      // extraReducers автмоатич создают actions:
-      extraReducers: {
-            [categoryRequestAsync.pending.type]: (state) => {
+      // extraReducers автмоатич создают actions. extraReducersнужны чтобы обработать categoryRequestAsync
+      extraReducers: (builder) => {
+            builder.addCase(categoryRequestAsync.pending.type, (state) => {
                   state.error = ''; // error это свойстов в initialState
-            },
-            [categoryRequestAsync.fulfilled.type]: (state, action) => {
+            })
+            builder.addCase(categoryRequestAsync.fulfilled.type, (state, action) => {
                   state.error = '';
-                  state.category = action.payload;  // сервер возаращет массив категрий. category это свовойство в initialState
-            },
-            [categoryRequestAsync.rejected.type]: (state, action) => {
+                  state.category = action.payload;  // action.payload это то что сервер возаращет (массив категрий). category это свовойство в initialState
+            })
+            builder.addCase(categoryRequestAsync.rejected.type, (state, action) => {
                   state.error = action.payload.error;
-            }
-      }
+            })
+      },
 });
 
 

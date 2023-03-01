@@ -7,22 +7,23 @@ import { useEffect } from 'react';
 import { API_URI } from '../../const';
 
 
+
+
 export const Navigation = () => {
 
       const { category, activeCategory } = useSelector((state) => {  // useSelector это хук
-
             return state.category;        // category = [ {}, {}, {}, {} ]
       })
 
-      const dispatch = useDispatch();   //  чтобы получить action. Вернет фукнцию
+      const dispatch = useDispatch();   //  useDispatch это хук, чтобы получить action. Вернет фукнцию
 
 
       useEffect(() => {                   // useEffect это хук
-            dispatch(categoryRequestAsync('max'));
+            dispatch(categoryRequestAsync('max'));                      // отправляем запрос на сервер
       }, [])  // если массив [] не передать, то при каждом рендере  Navigation при нажатии на категрию, срабатывает categoryRequestAsync. Если передать непустой  массив, то будет каждый раз  вызываться categoryRequestAsync, когла меняем катеогрию. Если передать пустой массви, то categoryRequestAsync вызовится 1 раз при запуске Navigation
 
 
-      // useDispatch это хук
+
       return (
             <nav className={style.navigation}>
                   <Container className={style.container}>

@@ -26,7 +26,7 @@ export const Catalog = () => {
 
 
       //{ products } -это деструтктуризция
-      const { products } = useSelector((state) => {  // useSelector -хук, products = [ {}, {}, {} ]
+      const { products } = useSelector((state) => {   // useSelector -хук, products = [ {}, {}, {} ]
             return state.product;                     // state.product  взяли из itinitialState ProductSlice.js
       });
       console.log('{ products } ', { products });
@@ -42,7 +42,7 @@ export const Catalog = () => {
 
       useEffect(() => {
             if (category.length) {
-                  dispatch(productRequestAsync(category[activeCategory].title));
+                  dispatch(productRequestAsync(category[activeCategory].title));  //  отппавляем запрос на сервер
             }
       }, [category, activeCategory]);  // если изменится category или activeCategory то запускается productRequestAsync
 
@@ -57,14 +57,19 @@ export const Catalog = () => {
                               <h2 className={style.title}>{category[activeCategory]?.rus}</h2>
 
                               <div className={style.wrap_list}>
-                                    <ul className={style.list}>
-                                          {products.map((item, i) => (                         // рендерим карточки продуктов, ствим атрибут  key={id} чтобф реакт не ругался
-                                                <li key={item.id} className={style.item}>
-                                                      <CatalogProduct item={item} />
-                                                </li>
-                                          )
-                                          )}
-                                    </ul>
+
+                                    {products.length ? (
+                                          <ul className={style.list}>
+                                                {products.map((item, i) => (                         // рендерим карточки продуктов, ствим атрибут  key={id} чтобф реакт не ругался
+                                                      <li key={item.id} className={style.item}>
+                                                            <CatalogProduct item={item} />
+                                                      </li>
+                                                )
+                                                )}
+                                          </ul>
+                                    ) : (
+                                          <p className={style.empty}>К сожалению, товаров такой категории нет</p>
+                                    )}
                               </div>
                         </div>
 
