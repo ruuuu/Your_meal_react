@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { orderRequestAsync } from '../../store/order/orderSlice.js';
 
 // отрисовка Корзины:
-const OrderList = ['Супер сырный', 'Картошка фри', 'Жгучий хот дог'];
+// const OrderList = ['Супер сырный', 'Картошка фри', 'Жгучий хот дог'];
 
 
 

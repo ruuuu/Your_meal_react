@@ -1,6 +1,8 @@
 // Корзина:
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_URI, POSTFIX } from "../../const";
+import { calcTotalCount, calcTotalPrice } from "../../utils/calcTotal";
+
 
 
 // товары корзины хрнаим в LocalStorage,  orderList = [ {id, count}, {}, {} ] спсок товаров в Корзине
@@ -50,60 +52,58 @@ export const orderRequestAsync = createAsyncThunk(
 const orderSlice = createSlice({
       name: 'order',                            // название action, в Redux  будет отображаться как order/addProduct
       initialState: initialState,
-      reducers: {  // здесь будут actions: 
+      reducers: {                   // здесь будут actions: 
             addProduct: (state, action) => {  //  при нажатии на кноку Добавить у товара, вызовется эта фукнция
                   //console.log('action.payload in orderSlice ', action.payload);                 // {id: 323423}
                   //console.log('...action.payload in orderSlice ', { ...action.payload });        // {id: 323423}
-                  const productOrderList = state.orderList.find((item) => item.id === action.payload.id,);                // перебирает массив state.orderList и возврашает первый элемент, удовлевор условию
+                  const productOrderList = state.orderList.find((item) => {
+                        return item.id === action.payload.id;
+                  });                // перебирает массив state.orderList и возврашает первый элемент, удовлевор условию
+
                   // action.payload - объект, action.payload.id  товар котрый выбрали
 
-                  console.log('productOrderList ', productOrderList);
+                  //console.log('productOrderList ', productOrderList);
 
                   if (productOrderList) {                                                    // если добавленный элементе етсь в коризне
                         productOrderList.count += 1;
-                        const productOrderGoods = state.orderGoods.find((item) => item.id === action.payload.id,);
+                        const productOrderGoods = state.orderGoods.find((item) => {
+                              return item.id === action.payload.id;
+                        });
 
                         productOrderGoods.count = productOrderList.count;
-                        console.log('productOrderGoods in orderSlice ', productOrderGoods);
+                        state.totalCount = calcTotalCount(state.orderGoods);
+                        state.totalPrice = calcTotalPrice(state.orderGoods);
+                        //console.log('productOrderGoods in orderSlice ', productOrderGoods);
                   }
                   else {
                         state.orderList.push({ ...action.payload, count: 1 });      // orderList это своойство initialState={} , добавялем один товар в Корзину
                   }
 
-                  console.log('orderSlice.actions ', orderSlice.actions);
+                  // console.log('orderSlice.actions ', orderSlice.actions);
             }
       },
       // extraReducers автмоатич создают actions. extraReducers нужны чтобы обработать orderRequestAsync
       extraReducers: (builder) => {
             builder.addCase(orderRequestAsync.pending.type, (state) => {   // orderRequestAsync.pending можно без type писать
-                  state.error = '';                                     // error это свойстов в initialState
+                  state.error = '';                                        // error это свойстов в initialState
             })
             builder.addCase(orderRequestAsync.fulfilled.type, (state, action) => {
                   console.log('action.payload in OrderSlice ', action.payload);     // то что вернулось с сервера: [ {id, name, category, price, weight, count}, {}, {}]
 
                   const orderGoods = state.orderList.map((item) => {                // перебираем  [ {id, count}, {id, count} ]
-                        const product = action.payload.find((itemProduct) => {
-                              return (itemProduct.id === item.id);
-                        });
+                        const product = action.payload.find((product) => product.id === item.id,);
 
                         product.count = item.count;
 
                         return product;
-                  })
+                  });
                   // orderGoods = [ {id, name, price, sount}, {}, {} ]
 
                   state.error = '';
                   state.orderGoods = orderGoods;
-                  state.totalCount = orderGoods.reduce(
-                        (acc, item) => {
-                              return acc + item.count, 0;
-                        }
-                  );
-                  state.totalPrice = orderGoods.reduce(
-                        (acc, item) => {
-                              return acc + item.count * item.price, 0;
-                        }
-                  );;
+                  state.totalCount = calcTotalCount(orderGoods);
+                  state.totalPrice = calcTotalPrice(orderGoods);
+
             })
             builder.addCase(orderRequestAsync.rejected.type, (state, action) => {
                   state.error = action.payload.error;

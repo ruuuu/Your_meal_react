@@ -5,16 +5,16 @@ import style from './Count.module.css';  // Нужен для покдлючен
 // число товара в Корзине:
 export const Count = ({ count, id }) => {   // props = { count, id}
 
-      //   создаем стейт на основе хука(это useState):
-      //const state = useState(props.count);
-      //console.log('state ', state);
-      //const [count, setCount] = useState(props.count);  // фукнция setCount(count) записывает данные в count
+      //  создаем стейт на основе хука(это useState):
+      // const state = useState(props.count);
+      // console.log('state ', state);
+      // const [count, setCount] = useState(props.count);  // фукнция setCount(count) записывает данные в count
 
-      const addCount = () => {
+      const addCount = () => {  // при нажати на плюс, вызовется эта фукнция
 
       };
 
-      const removeCount = () => {
+      const removeCount = () => {  //  при нажати на минус, вызовется эта фукнция
 
       };
 
