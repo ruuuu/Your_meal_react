@@ -1,5 +1,9 @@
 import { useState } from 'react';
+import { addProduct, removeProduct } from '../../store/order/orderSlice';
 import style from './Count.module.css';  // Нужен для покдлючения стилей
+import { useDispatch } from 'react-redux';
+
+
 
 
 // число товара в Корзине:
@@ -10,12 +14,15 @@ export const Count = ({ count, id }) => {   // props = { count, id}
       // console.log('state ', state);
       // const [count, setCount] = useState(props.count);  // фукнция setCount(count) записывает данные в count
 
-      const addCount = () => {  // при нажати на плюс, вызовется эта фукнция
 
+      const dispatch = useDispatch();     //  чтобы получить action. Вернет фукнцию
+
+      const addCount = () => {            // при нажати на плюс, вызовется эта фукнция
+            dispatch(addProduct({ id }));
       };
 
-      const removeCount = () => {  //  при нажати на минус, вызовется эта фукнция
-
+      const removeCount = () => {         //  при нажати на минус, вызовется эта фукнция
+            dispatch(removeProduct({ id }));
       };
 
 

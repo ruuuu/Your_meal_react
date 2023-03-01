@@ -80,6 +80,32 @@ const orderSlice = createSlice({
                   }
 
                   // console.log('orderSlice.actions ', orderSlice.actions);
+            },
+            removeProduct: (state, action) => {  // при нажатии на минус, вызовется эта фукнция
+
+                  const productOrderList = state.orderList.find((item) => {
+                        return item.id === action.payload.id;
+                  });                // перебирает массив state.orderList и возврашает первый элемент, удовлевор условию
+
+
+
+                  if (productOrderList.count > 1) {                                                    // если добавленный элементе етсь в коризне
+                        productOrderList.count -= 1;
+                        const productOrderGoods = state.orderGoods.find((item) => {
+                              return item.id === action.payload.id;
+                        });
+
+                        productOrderGoods.count = productOrderList.count;
+                        state.totalCount = calcTotalCount(state.orderGoods);
+                        state.totalPrice = calcTotalPrice(state.orderGoods);
+                        //console.log('productOrderGoods in orderSlice ', productOrderGoods);
+                  }
+                  else {
+                        state.orderList = state.orderList.filter((item) => {
+                              return (item.id !== action.payload.id);
+                        });      // orderList это своойство initialState={} , добавялем один товар в Корзину
+                  }
+
             }
       },
       // extraReducers автмоатич создают actions. extraReducers нужны чтобы обработать orderRequestAsync
@@ -113,5 +139,5 @@ const orderSlice = createSlice({
 });
 
 
-export const { addProduct } = orderSlice.actions;  // возвращаем addProduct
+export const { addProduct, removeProduct } = orderSlice.actions;
 export default orderSlice.reducer;
