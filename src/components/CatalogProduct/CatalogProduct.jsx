@@ -25,7 +25,7 @@ export const CatalogProduct = ({ item }) => {
                   <p className={style.weight}>{item.weight}г</p>
 
                   <button className={style.add} type="button" onClick={() => {
-                        dispatch(addProduct({ id: item.id }))  // при клике вызовется фукнция  addProduct()
+                        dispatch(addProduct({ id: item.id }))  // диспатчим action, при клике вызовется фукнция  addProduct()
                   }}>Добавить</button>
             </article>
       );

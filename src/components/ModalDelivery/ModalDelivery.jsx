@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import style from './ModalDelivery.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../store/modalDelivery/modalDeliverySlice.js';
-
+import { updateFormValue } from '../../store/form/formSlice.js';
 
 
 
@@ -11,17 +11,28 @@ import { closeModal } from '../../store/modalDelivery/modalDeliverySlice.js';
 export const ModalDelivery = () => {
 
   // деструткризация:
-  const { isOpen } = useSelector((state) => state.modal);  // useSelector -хук
-  // state.isOpen  взяли из itinitialState ModalDeliverySlice.js
-
+  const { isOpen } = useSelector((state) => state.modal);  // useSelector -хук;  state.isOpen  взяли из itinitialState ModalDeliverySlice.js
+  const form = useSelector((state) => state.form);
   const dispatch = useDispatch();   //  чтобы получить action. Вернет фукнцию
+
+
+  const handleInputChange = (evt) => {
+    dispatch(updateFormValue({ field: evt.target.name, value: evt.target.value }));     // первый параметр это  значние атрибута name у поля
+  };
+
+
+
+  const handleSubmit = (evt) => {  // при отпраке формы, вызовется эта фукнция
+    evt.preventDefault();         // чтобы  после отправки формы, станица не перезграужалась
+    dispatch(); // диспатчим action
+  };
 
 
   return (
     isOpen && (    // если isOpen=true, то отображаем верстку модалки
       <div className={style.modal} onClick={({ target, currentTarget }) => {  // target это то элемент на который нажали
-        console.log('target ', target);             // элемент на котрый нажали.  (элемент котрый вызвал событие)
-        console.log('eventTarget ', currentTarget);  // элемент на котрый навешано событие. В нашем случаем это модалка
+        //console.log('target ', target);             // элемент на котрый нажали.  (элемент котрый вызвал событие)
+        //console.log('eventTarget ', currentTarget);  // элемент на котрый навешано событие. В нашем случаем это модалка
         if (target === currentTarget) {
           dispatch(closeModal());
         }
@@ -30,28 +41,30 @@ export const ModalDelivery = () => {
           <div className={style.container}>
             <h2 className={style.title}>Доставка</h2>
 
-            <form className={style.form} id='delivery'>
+            <form className={style.form} id='delivery' onSubmit={handleSubmit
+              // по нажатию на Отправить, происходит событие onSubmit
+            }>
               <fieldset className={style.fieldset}>
-                <input className={style.input} type='text' name='name' placeholder='Ваше имя' />
-                <input className={style.input} type='tel' name='phone' placeholder='Телефон' />
+                <input className={style.input} type='text' name='name' placeholder='Ваше имя' value={form.name} onChange={handleInputChange /*при вводе текста в поле, происходит событие onChange*/} />
+                <input className={style.input} type='tel' name='phone' placeholder='Телефон' value={form.phone} onChange={handleInputChange} />
               </fieldset>
 
               <fieldset className={style.fieldset_radio}>
                 <label className={style.label}>
-                  <input className={style.radio} type='radio' name='format' value='pickup' />
+                  <input className={style.radio} type='radio' name='format' value='pickup' checked={form.format === 'pickup'} />
                   <span>Самовывоз</span>
                 </label>
 
                 <label className={style.label}>
-                  <input className={style.radio} type='radio' name='format' value='delivery' checked />
+                  <input className={style.radio} type='radio' name='format' value='delivery' checked={form.format === 'delivery'} />
                   <span>Доставка</span>
                 </label>
               </fieldset>
 
               <fieldset className={style.fieldset}>
-                <input className={style.input} type='text' name='address' placeholder='Улица, дом, квартира' />
-                <input className={classNames(style.input, style.input_half)} type='number' name='floor' placeholder='Этаж' />
-                <input className={classNames(style.input, style.input_half)} type='number' name='intercom' placeholder='Домофон' />
+                <input className={style.input} type='text' name='address' placeholder='Улица, дом, квартира' value={form.address} onChange={handleInputChange} />
+                <input className={classNames(style.input, style.input_half)} type='number' name='floor' placeholder='Этаж' value={form.floor} onChange={handleInputChange} />
+                <input className={classNames(style.input, style.input_half)} type='number' name='intercom' placeholder='Домофон' value={form.intercom} onChange={handleInputChange} />
               </fieldset>
             </form>
 
@@ -69,7 +82,7 @@ export const ModalDelivery = () => {
             </svg>
           </button>
         </div>
-      </div>
+      </div >
     )
   )
 }

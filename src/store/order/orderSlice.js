@@ -103,7 +103,7 @@ const orderSlice = createSlice({
                         //console.log('productOrderGoods in orderSlice ', productOrderGoods);
                   }
                   else {
-                        state.orderList = state.orderList.filter((item) => {
+                        state.orderList = state.orderList.filter((item) => {  // вернет массив элементов удолветоворяющий условию
                               return (item.id !== action.payload.id);
                         });      // orderList это своойство initialState={} , добавялем один товар в Корзину
                   }
@@ -144,5 +144,5 @@ const orderSlice = createSlice({
 
 
 
-export const { addProduct, removeProduct } = orderSlice.actions;  // импорт фукнций из orderSlice.actions
+export const { addProduct, removeProduct } = orderSlice.actions;  // вытащили редьюсеры addProduct, removeProduct из orderSlice.actions
 export default orderSlice.reducer;  // здесь экспортируем, а в index.js импортруем как orderReducer

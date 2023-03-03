@@ -5,17 +5,20 @@ import categoryReducer from "./category/categorySlice.js";  // categoryReducer �
 import productReducer from "./product/productSlice.js";     // productReducer здесь дали название сами 
 import orderReducer, { localStorageMiddleware } from "./order/orderSlice.js";
 import modalReducer from "./modalDelivery/modalDeliverySlice.js";
+import formReducer from "./form/formSlice.js";
+
+
 
 
 export const store = configureStore({
       reducer: {                    // редьюсер это фукнции котрые вычитыват из store  состояние(state) приложения и возвращают новое состняие(state)
             // category- название  редьюсера, сам редьюсер это categorySlice.js
-            //  product - название  редьюсера, сам редьюсер это productReducer.js
+            //  product - название  редьюсера, сам редьюсер это .js
             category: categoryReducer,          // category это названеи state
             product: productReducer,            // product это название state
             order: orderReducer,
-            modal: modalReducer
-
+            modal: modalReducer,
+            form: formReducer,
       },
 
 

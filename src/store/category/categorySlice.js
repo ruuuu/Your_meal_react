@@ -68,6 +68,6 @@ const categorySlice = createSlice({
 
 
 
-export const { changeCategory } = categorySlice.actions;                // импорт фукнции из categorySlice.actions. changeCategory функция при выозве которой возращается action(строка с данными: category/changeCategory)
+export const { changeCategory } = categorySlice.actions;                // вытащили редльюсеры из categorySlice.actions; changeCategory функция при выозве которой возращается action(строка с данными: category/changeCategory)
 export default categorySlice.reducer;           // здесь экспортируем, а в index.js импортруем как categoryReducer
 //export default categorySlice.action;

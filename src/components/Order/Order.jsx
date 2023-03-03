@@ -55,7 +55,7 @@ export const Order = () => {
                               </div>
 
                               <button className={style.submit} disabled={orderGoods.length === 0} onClick={() => {
-                                    dispatch(openModal());             //  при клике на кнопку, вызаоется фукнция openModal()
+                                    dispatch(openModal());             //  диспатчим action, при клике на кнопку, вызаоется фукнция openModal()
                               }}>Оформить заказ</button>
 
                               <div className={style.apeal}>
