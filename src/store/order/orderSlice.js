@@ -8,10 +8,10 @@ import { calcTotalCount, calcTotalPrice } from "../../utils/calcTotal";
 // товары корзины хрнаим в LocalStorage,  orderList = [ {id, count}, {}, {} ] спсок товаров в Корзине
 const initialState = {
       orderList: JSON.parse(localStorage.getItem('order') || '[]'),  // если пока нет  ничего в лок хранлиище то создаться пустой массив
-      orderGoods: [],  // товары Корзины [{}], это товары полученные от /api/product?list={id,id,id}
+      orderGoods: [],                           // товары Корзины [{}], это товары полученные от /api/product?list={id,id,id}
       totalPrice: 0,
-      totalCount: 0, // число товаров в Козина 
-      error: [], // 
+      totalCount: 0,                            // число товаров в Козина 
+      error: [],
 
 };
 
@@ -26,7 +26,7 @@ export const localStorageMiddleware = store => next => action => {
             console.log('orderList ', orderList);
       }
 
-      return nextAction; // возвращет action, каждый раз когда вызывается action, вызывается каждый middleware
+      return nextAction;                  // возвращет action, каждый раз когда вызывается action, вызывается каждый middleware
 };
 
 
@@ -50,9 +50,10 @@ export const orderRequestAsync = createAsyncThunk(
 
 
 const orderSlice = createSlice({
-      name: 'order',                            // название action, в Redux  будет отображаться как order/addProduct
+      name: 'order',                            // название state или action??, в Redux  будет отображаться как order/addProduct
       initialState: initialState,
-      reducers: {                   // здесь будут actions: 
+      reducers: {                   // здесь будут редьюеры: 
+            // редьюсер:
             addProduct: (state, action) => {  //  при нажатии на кноку Добавить у товара, вызовется эта фукнция
                   //console.log('action.payload in orderSlice ', action.payload);                 // {id: 323423}
                   //console.log('...action.payload in orderSlice ', { ...action.payload });        // {id: 323423}
@@ -81,6 +82,7 @@ const orderSlice = createSlice({
 
                   // console.log('orderSlice.actions ', orderSlice.actions);
             },
+            // редьюсер:
             removeProduct: (state, action) => {  // при нажатии на минус, вызовется эта фукнция
 
                   const productOrderList = state.orderList.find((item) => {
@@ -108,7 +110,7 @@ const orderSlice = createSlice({
 
             }
       },
-      // extraReducers автмоатич создают actions. extraReducers нужны чтобы обработать orderRequestAsync
+      // extraReducers автмоатич создают actions. extraReducers нужны чтобы обработать orderRequestAsync(запрос на сервер)
       extraReducers: (builder) => {
             builder.addCase(orderRequestAsync.pending.type, (state) => {   // orderRequestAsync.pending можно без type писать
                   state.error = '';                                        // error это свойстов в initialState
@@ -139,5 +141,8 @@ const orderSlice = createSlice({
 });
 
 
-export const { addProduct, removeProduct } = orderSlice.actions;
-export default orderSlice.reducer;
+
+
+
+export const { addProduct, removeProduct } = orderSlice.actions;  // импорт фукнций из orderSlice.actions
+export default orderSlice.reducer;  // здесь экспортируем, а в index.js импортруем как orderReducer

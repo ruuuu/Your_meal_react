@@ -32,8 +32,6 @@ export const categoryRequestAsync = createAsyncThunk(
             return fetch(`${API_URI}${POSTFIX}/category`)
                   .then(req => req.json())                  //  req-ответ от сервера, return req.json(). обрабатываем промис
                   .catch(error => ({ error }))              // возаращет объект, попадет в action.payload
-
-
       }  // результат этого колбэка попадает в action(в extraReducers)
 );
 
@@ -41,17 +39,18 @@ export const categoryRequestAsync = createAsyncThunk(
 
 // categorySlice - объект содержащий редьюсеры и actions
 const categorySlice = createSlice({
-      name: 'category',                                           //  название action, сами придумали.  в Redux  будет отображаться как category/changeCategory
+      name: 'category',                                           //  название state, сами придумали.  в Redux  будет отображаться как category/changeCategory
       initialState: initialState,
-      reducers: {                               // здесь будут actions:
+      reducers: {                               // здесь будут редьюсеры:
+            // редьюсер:
             changeCategory(state, action) {     //  Делает выбранную  категрию активной, changeCategory()=>{} это action
-                  console.log('state in categorySlice ', state);
-                  console.log('action in categorySlice ', action);
-                  console.log('action.payload in categorySlice ', action.payload);                                  // {indexcategory: 6} ,  { type: category/changeCategory, payload: indexcategory: i }
-                  state.activeCategory = action.payload.indexcategory;                             //  action.payload - объект , свойстов  indexcategory придумали сами(индекс активной катергрии)
+                  //console.log('state in categorySlice ', state);
+                  //console.log('action in categorySlice ', action);
+                  //console.log('action.payload in categorySlice ', action.payload);                                  // {indexcategory: 6} ,  { type: category/changeCategory, payload: indexcategory: i }
+                  state.activeCategory = action.payload.indexcategory;                             //  action.payload - объект, свойстов  indexcategory придумали сами(индекс активной катергрии)
             },
       },
-      // extraReducers автмоатич создают actions. extraReducersнужны чтобы обработать categoryRequestAsync
+      // extraReducers автмоатич создают actions. ExtraReducers нужны чтобы обработать categoryRequestAsync(запрос на сервер)
       extraReducers: (builder) => {
             builder.addCase(categoryRequestAsync.pending.type, (state) => {
                   state.error = ''; // error это свойстов в initialState
@@ -67,6 +66,8 @@ const categorySlice = createSlice({
 });
 
 
-export const { changeCategory } = categorySlice.actions;                // changeCategory функция при выозве которой возращается action(строка с данными: category/changeCategory)
-export default categorySlice.reducer;
+
+
+export const { changeCategory } = categorySlice.actions;                // импорт фукнции из categorySlice.actions. changeCategory функция при выозве которой возращается action(строка с данными: category/changeCategory)
+export default categorySlice.reducer;           // здесь экспортируем, а в index.js импортруем как categoryReducer
 //export default categorySlice.action;

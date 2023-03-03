@@ -29,13 +29,13 @@ export const Catalog = () => {
       const { products } = useSelector((state) => {   // useSelector -хук, products = [ {}, {}, {} ]
             return state.product;                     // state.product  взяли из itinitialState ProductSlice.js
       });
-      console.log('{ products } ', { products });
+      //console.log('{ products } ', { products });
 
 
-      const { category, activeCategory } = useSelector((state) => {
+      const { category, activeCategory } = useSelector((state) => {   // category, activeCategory это свойсва state 
             return state.category;
       });
-      console.log('{ category }  ', { category });
+      //console.log('{ category }  ', { category });
 
 
       const dispatch = useDispatch();   //  чтобы получить action. Вернет фукнцию

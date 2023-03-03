@@ -26,7 +26,7 @@ export const productRequestAsync = createAsyncThunk(
 
 
 const productSlice = createSlice({
-      name: 'product',                                 //  название action, сами придумали,
+      name: 'product',                                 //  название state, сами придумали,
       initialState: initilState,
       extraReducers: (builder) => {
             // addCase() добавляет редьюсер, метод возвращает builder           // здесь будут actions: обрабабтываем данные пришедшие в сервера
@@ -53,4 +53,4 @@ const productSlice = createSlice({
 
 
 
-export default productSlice.reducer;
+export default productSlice.reducer;             // редьюсер вытащили

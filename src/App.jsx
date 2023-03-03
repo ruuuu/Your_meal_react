@@ -4,7 +4,7 @@ import { Navigation } from "./components/Navigation/Navigation.jsx"
 import { Catalog } from "./components/Catalog/Catalog.jsx"
 import { Provider } from "react-redux"
 import { store } from './store/index.js';
-
+import { ModalDelivery } from "./components/ModalDelivery/ModalDelivery"
 
 
 
@@ -19,6 +19,7 @@ export const App = () => {
         <Catalog />
       </main>
       <footer></footer>
+      <ModalDelivery />
     </Provider>
 
   )

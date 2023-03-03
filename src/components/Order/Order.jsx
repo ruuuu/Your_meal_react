@@ -1,11 +1,15 @@
+
+// отрисовка Корзины:
 //import style from './OrderGoods.module.css';
 import style from './Order.module.css'
 import { OrderGoods } from '../OrderGoods/OrderGoods.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { orderRequestAsync } from '../../store/order/orderSlice.js';
+import { openModal } from '../../store/modalDelivery/modalDeliverySlice.js';
 
-// отрисовка Корзины:
+
+
 // const OrderList = ['Супер сырный', 'Картошка фри', 'Жгучий хот дог'];
 
 
@@ -13,16 +17,16 @@ import { orderRequestAsync } from '../../store/order/orderSlice.js';
 
 export const Order = () => {
 
-      // деструткризация:
+      // деструткризация: эти поля взяты из initialState в orderSlice.js
       const { totalPrice, totalCount, orderList, orderGoods } = useSelector((state) => {  // useSelector -хук, позволяющий вытащить из state  др state
-            return state.order;
+            return state.order;                                                           // order это названеи action
       });
 
-      const dispatch = useDispatch();   //  чтобы получить action. Вернет фукнцию
+      const dispatch = useDispatch();                                                     //  чтобы получить action и с помщью него вызываем редьюсер . Вернет фукнцию
 
       useEffect(() => {
-            dispatch(orderRequestAsync());      // отппавляем запрос на сервер
-      }, [orderList.length]);  // если в Корзине число товаров изменится, то вызовется еще раз этот коллбэк
+            dispatch(orderRequestAsync());                                                // отппавляем запрос на сервер чеерз orderRequestAsync()
+      }, [orderList.length]);                                                             // если в Корзине число товаров изменится, то вызовется еще раз этот коллбэк
 
 
 
@@ -51,7 +55,9 @@ export const Order = () => {
                                     </p>
                               </div>
 
-                              <button className={style.submit}>Оформить заказ</button>
+                              <button className={style.submit} disabled={orderGoods.length === 0} onClick={() => {
+                                    dispatch(openModal());               //  при клике на кнопку, вызаоется фукнция openModal()
+                              }}>Оформить заказ</button>
 
                               <div className={style.apeal}>
                                     <p className={style.text}>Бесплатная доставка</p>

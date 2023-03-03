@@ -1,19 +1,21 @@
 // здесб подключаем компоненты
 
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import categoryReducer from "./category/categorySlice.js";  // categoryReducer здесь дали название сами 
 import productReducer from "./product/productSlice.js";     // productReducer здесь дали название сами 
 import orderReducer, { localStorageMiddleware } from "./order/orderSlice.js";
-
+import modalReducer from "./modalDelivery/modalDeliverySlice.js";
 
 
 export const store = configureStore({
-      reducer: {                    // редьюсер это фукнции котрые вычитыват из хранлища  состояние(state) приложения и возвращают новое состняие(state)
+      reducer: {                    // редьюсер это фукнции котрые вычитыват из store  состояние(state) приложения и возвращают новое состняие(state)
             // category- название  редьюсера, сам редьюсер это categorySlice.js
             //  product - название  редьюсера, сам редьюсер это productReducer.js
-            category: categoryReducer,          // category это state
-            product: productReducer,            // product это state
+            category: categoryReducer,          // category это названеи state
+            product: productReducer,            // product это название state
             order: orderReducer,
+            modal: modalReducer
+
       },
 
 
