@@ -1,6 +1,5 @@
 
 // отрисовка Корзины:
-//import style from './OrderGoods.module.css';
 import style from './Order.module.css'
 import { OrderGoods } from '../OrderGoods/OrderGoods.jsx';
 import { useSelector, useDispatch } from 'react-redux';
@@ -56,7 +55,7 @@ export const Order = () => {
                               </div>
 
                               <button className={style.submit} disabled={orderGoods.length === 0} onClick={() => {
-                                    dispatch(openModal());               //  при клике на кнопку, вызаоется фукнция openModal()
+                                    dispatch(openModal());             //  при клике на кнопку, вызаоется фукнция openModal()
                               }}>Оформить заказ</button>
 
                               <div className={style.apeal}>
