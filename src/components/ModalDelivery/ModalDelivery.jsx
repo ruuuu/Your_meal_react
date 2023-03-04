@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import style from './ModalDelivery.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../store/modalDelivery/modalDeliverySlice.js';
-import { updateFormValue } from '../../store/form/formSlice.js';
+import { submitForm, updateFormValue } from '../../store/form/formSlice.js';
 
 
 
@@ -22,9 +22,9 @@ export const ModalDelivery = () => {
 
 
 
-  const handleSubmit = (evt) => {  // при отпраке формы, вызовется эта фукнция
-    evt.preventDefault();         // чтобы  после отправки формы, станица не перезграужалась
-    dispatch(); // диспатчим action
+  const handleSubmit = (evt) => {         // при отпраке формы, вызовется эта фукнция
+    evt.preventDefault();                 // чтобы  после отправки формы, станица не перезграужалась
+    dispatch(submitForm({}));                           // диспатчим action
   };
 
 
@@ -40,9 +40,8 @@ export const ModalDelivery = () => {
         <div className={style.mdelivery}>
           <div className={style.container}>
             <h2 className={style.title}>Доставка</h2>
-
             <form className={style.form} id='delivery' onSubmit={handleSubmit
-              // по нажатию на Отправить, происходит событие onSubmit
+              // по нажатию на Отправить, происходит событие onSubmit и вызовется handleSubmit()
             }>
               <fieldset className={style.fieldset}>
                 <input className={style.input} type='text' name='name' placeholder='Ваше имя' value={form.name} onChange={handleInputChange /*при вводе текста в поле, происходит событие onChange*/} />
@@ -73,7 +72,7 @@ export const ModalDelivery = () => {
             </button>
           </div>
 
-          <button className={style.modal__close} type='button' onClick={() => {
+          <button className={style.modal__close} type='button' onClick={() => { // пр нажатии на эту кнпоку, вызовется closeModal()
             dispatch(closeModal());
           }}>
             <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>
@@ -82,7 +81,7 @@ export const ModalDelivery = () => {
             </svg>
           </button>
         </div>
-      </div >
+      </div>
     )
   )
 }

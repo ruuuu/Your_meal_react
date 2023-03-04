@@ -1,4 +1,4 @@
-// Корзина:
+// добалвение/удаление товаров из  Корзина:
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_URI, POSTFIX } from "../../const";
 import { calcTotalCount, calcTotalPrice } from "../../utils/calcTotal";
@@ -50,12 +50,12 @@ export const orderRequestAsync = createAsyncThunk(
 
 
 const orderSlice = createSlice({
-      name: 'order',                            // название state или action??, в Redux  будет отображаться как order/addProduct
+      name: 'order',                            // название  action, в Redux  будет отображаться как order/addProduct
       initialState: initialState,
       reducers: {                   // здесь будут редьюеры: 
             // редьюсер:
             addProduct: (state, action) => {  //  при нажатии на кноку Добавить у товара, вызовется эта фукнция
-                  //console.log('action.payload in orderSlice ', action.payload);                 // {id: 323423}
+                  //console.log('action.payload in orderSlice ', action.payload);                  // [{id: 323423}  ]
                   //console.log('...action.payload in orderSlice ', { ...action.payload });        // {id: 323423}
                   const productOrderList = state.orderList.find((item) => {
                         return item.id === action.payload.id;
@@ -131,7 +131,6 @@ const orderSlice = createSlice({
                   state.orderGoods = orderGoods;
                   state.totalCount = calcTotalCount(orderGoods);
                   state.totalPrice = calcTotalPrice(orderGoods);
-
             })
             builder.addCase(orderRequestAsync.rejected.type, (state, action) => {
                   state.error = action.payload.error;
