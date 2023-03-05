@@ -5,11 +5,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
       //  поля формы:
-      name: 'Руфина',
-      phone: '89765454323',
+      name: '',
+      phone: '',
       format: 'delivery',
-      address: 'Казань',
-      floor: '12',
+      address: '',
+      floor: '',
       intercom: '',
 };
 

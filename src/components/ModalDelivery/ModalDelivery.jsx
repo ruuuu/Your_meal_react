@@ -13,10 +13,13 @@ export const ModalDelivery = () => {
   // деструткризация:
   const { isOpen } = useSelector((state) => state.modal);  // useSelector -хук;  state.isOpen  взяли из itinitialState ModalDeliverySlice.js
   const form = useSelector((state) => state.form);
-  const dispatch = useDispatch();   //  чтобы получить action. Вернет фукнцию
+  //console.log('form ', form);
+  // console.log('...form ', ...form);
+  const dispatch = useDispatch();                                 //  чтобы получить action. Вернет фукнцию
+  const { orderList } = useSelector((state) => state.order);          // orderList = [ {id, count}, {id, count} ]
 
 
-  const handleInputChange = (evt) => {
+  const handleInputChange = (evt) => {          // при вводе в поля ввода, вызовется  эта функция  
     dispatch(updateFormValue({ field: evt.target.name, value: evt.target.value }));     // первый параметр это  значние атрибута name у поля
   };
 
@@ -24,7 +27,7 @@ export const ModalDelivery = () => {
 
   const handleSubmit = (evt) => {         // при отпраке формы, вызовется эта фукнция
     evt.preventDefault();                 // чтобы  после отправки формы, станица не перезграужалась
-    dispatch(submitForm({}));                           // диспатчим action
+    dispatch(submitForm({ ...form, orderList }));                           // диспатчим action
   };
 
 
@@ -50,12 +53,12 @@ export const ModalDelivery = () => {
 
               <fieldset className={style.fieldset_radio}>
                 <label className={style.label}>
-                  <input className={style.radio} type='radio' name='format' value='pickup' checked={form.format === 'pickup'} />
+                  <input className={style.radio} type='radio' name='format' value='pickup' checked={form.format === 'pickup'} onChange={handleInputChange} />
                   <span>Самовывоз</span>
                 </label>
 
                 <label className={style.label}>
-                  <input className={style.radio} type='radio' name='format' value='delivery' checked={form.format === 'delivery'} />
+                  <input className={style.radio} type='radio' name='format' value='delivery' checked={form.format === 'delivery'} onChange={handleInputChange} />
                   <span>Доставка</span>
                 </label>
               </fieldset>
@@ -67,9 +70,7 @@ export const ModalDelivery = () => {
               </fieldset>
             </form>
 
-            <button className={style.submit} type='submit' form='delivery'>
-              Оформить
-            </button>
+            <button className={style.submit} type='submit' form='delivery'>Оформить</button>
           </div>
 
           <button className={style.modal__close} type='button' onClick={() => { // пр нажатии на эту кнпоку, вызовется closeModal()
