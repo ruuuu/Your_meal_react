@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { orderRequestAsync } from '../../store/order/orderSlice.js';
 import { openModal } from '../../store/modalDelivery/modalDeliverySlice.js';
 
-
+console.log('style ', style);
 
 // const OrderList = ['Супер сырный', 'Картошка фри', 'Жгучий хот дог'];
 

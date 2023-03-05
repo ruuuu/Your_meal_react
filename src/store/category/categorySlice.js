@@ -24,7 +24,7 @@ const initialState = {              // нач состяние
 
 
 
-// createAsyncThunk встроенная фукния, выполняет асинхрон действия:
+// createAsyncThunk встроеннй в redux ToolKit  middleware, выполняет асинхрон действия:
 // запррос данных с сервера
 export const categoryRequestAsync = createAsyncThunk(
       'category/fetch',                                     // category/fetch название action, задали такое имя сами

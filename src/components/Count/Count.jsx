@@ -12,7 +12,7 @@ export const Count = ({ count, id }) => {   // props = { count, id}
       //  создаем стейт на основе хука(это useState):
       // const state = useState(props.count);
       // console.log('state ', state);
-      // const [count, setCount] = useState(props.count);  // фукнция setCount(count) записывает данные в count
+      // const [count, setCount] = useState(props.count);  // хук useState создает хранилище. Фукнция setCount(count) записывает данные в count
 
 
       const dispatch = useDispatch();     //  чтобы получить action. Вернет фукнцию

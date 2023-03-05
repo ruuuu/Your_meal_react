@@ -18,7 +18,7 @@ export const Navigation = () => {
       const dispatch = useDispatch();   //  useDispatch это хук, чтобы получить action. Вернет фукнцию
 
 
-      useEffect(() => {                   // useEffect это хук
+      useEffect(() => {                   // useEffect это хук, котрый делае  побочные дейсвтия(запрос на сервер,  общение с localStorage, чтото измнетиь в  верстке)
             dispatch(categoryRequestAsync('max'));                      // отправляем запрос на сервер
       }, [])  // если массив [] не передать, то при каждом рендере  Navigation при нажатии на категрию, срабатывает categoryRequestAsync. Если передать непустой  массив, то будет каждый раз  вызываться categoryRequestAsync, когла меняем катеогрию. Если передать пустой массви, то categoryRequestAsync вызовится 1 раз при запуске Navigation
 
