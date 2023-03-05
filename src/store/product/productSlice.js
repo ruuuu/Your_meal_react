@@ -5,7 +5,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 //  инициализируем state:
 const initilState = {
-      products: [],  //  с сервера будут приходить
+      products: [],           //  с сервера будут приходить
+      flagProduct: false,     // пока не было запроса на серве, для получения карточек товаров, флаг такой
       error: '',
 };
 
@@ -26,17 +27,19 @@ export const productRequestAsync = createAsyncThunk(
 
 
 const productSlice = createSlice({
-      name: 'product',                                 //  название state, сами придумали,
+      name: 'product',                                 //  название action, сами придумали,
       initialState: initilState,
       extraReducers: (builder) => {
             // addCase() добавляет редьюсер, метод возвращает builder           // здесь будут actions: обрабабтываем данные пришедшие в сервера
             builder.addCase(productRequestAsync.pending.type, (state) => {
-                  state.error = ''; // error это свойстов в initialState
+                  state.error = '';             // error это свойстов в initialState
+                  state.flagProduct = false;
             })
             builder.addCase(productRequestAsync.fulfilled.type, (state, action) => {
                   state.error = '';
                   console.log('action.payload in ProductSlice ', action.payload);         // action.payload это то, что возвращает сервер, а именно [{},{},{}] -массив продуктов
                   state.products = action.payload;                                        // сервер возаращет массив продуктов. products это свовойство в initialState
+                  state.flagProduct = true;
             })
             builder.addCase(productRequestAsync.rejected.type, (state, action) => {
                   state.error = action.payload.error;

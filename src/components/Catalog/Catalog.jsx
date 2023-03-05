@@ -26,7 +26,7 @@ export const Catalog = () => {
 
 
       //{ products } -это деструтктуризция
-      const { products } = useSelector((state) => {   // useSelector -хук, products = [ {}, {}, {} ]
+      const { products, flagProduct } = useSelector((state) => {   // useSelector -хук, products = [ {}, {}, {} ]
             return state.product;                     // state.product  взяли из itinitialState ProductSlice.js
       });
       //console.log('{ products } ', { products });
@@ -68,13 +68,15 @@ export const Catalog = () => {
                                                 )}
                                           </ul>
                                     ) : (
-                                          <p className={style.empty}>К сожалению, товаров такой категории нет</p>
+                                          flagProduct && (  // если flagProduct=false
+                                                <p className={style.empty}>К сожалению, товаров такой категории нет</p>
+                                          )
                                     )}
                               </div>
                         </div>
 
                   </Container>
-            </section>
+            </section >
 
       )
 }
