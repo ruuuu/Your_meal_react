@@ -63,11 +63,14 @@ export const ModalDelivery = () => {
                 </label>
               </fieldset>
 
-              <fieldset className={style.fieldset}>
-                <input className={style.input} type='text' name='address' placeholder='Улица, дом, квартира' value={form.address} onChange={handleInputChange} />
-                <input className={classNames(style.input, style.input_half)} type='number' name='floor' placeholder='Этаж' value={form.floor} onChange={handleInputChange} />
-                <input className={classNames(style.input, style.input_half)} type='number' name='intercom' placeholder='Домофон' value={form.intercom} onChange={handleInputChange} />
-              </fieldset>
+              {form.format === 'delivery' && (       // если form.format === 'delivery' то отобразить блок
+
+                <fieldset className={style.fieldset}>
+                  <input className={style.input} type='text' name='address' placeholder='Улица, дом, квартира' value={form.address} onChange={handleInputChange} />
+                  <input className={classNames(style.input, style.input_half)} type='number' name='floor' placeholder='Этаж' value={form.floor} onChange={handleInputChange} />
+                  <input className={classNames(style.input, style.input_half)} type='number' name='intercom' placeholder='Домофон' value={form.intercom} onChange={handleInputChange} />
+                </fieldset>
+              )}
             </form>
 
             <button className={style.submit} type='submit' form='delivery'>Оформить</button>

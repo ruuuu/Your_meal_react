@@ -1,6 +1,10 @@
 // отправка данных формы
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { clearOrder } from "../order/orderSlice.js";
+import { closeModal } from "../modalDelivery/modalDeliverySlice.js";
+
+
 
 
 const initialState = {
@@ -17,7 +21,7 @@ const initialState = {
 
 export const submitForm = createAsyncThunk(
       'form/submit',                                              // form/submit название action, задали такое имя сами
-      // dispatch нужен чтобы заказы очищать:                                  
+      // dispatch нужен чтобы заказы очищать и закрывать модалку:                                  
       async (data, { dispatch, rejectWithValue }) => {  // data- данные котрые отправляем на сервер https://cloudy-slash-rubidium.glitch.me/api/order
             try {
                   const response = await fetch('https://cloudy-slash-rubidium.glitch.me/api/order',
@@ -28,7 +32,15 @@ export const submitForm = createAsyncThunk(
                               },
                               body: JSON.stringify(data)
                         }
-                  )
+                  );
+
+                  if (!response.ok) {
+                        throw new Error(`Ошибка ${response.statusText}`);
+                  }
+
+                  dispatch(clearOrder());
+                  dispatch(closeModal());
+                  return await response.json();                         // дожидаемся ответа от сервера
             } catch (error) {
                   return rejectWithValue(error.message);
             }

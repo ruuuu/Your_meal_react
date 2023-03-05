@@ -108,6 +108,10 @@ const orderSlice = createSlice({
                         });      // orderList это своойство initialState={} , добавялем один товар в Корзину
                   }
 
+            },
+            clearOrder: (state) => {
+                  state.orderList = [];  // очищаем массив
+                  state.orderGoods = []; // очищаем массив
             }
       },
       // extraReducers автмоатич создают actions. extraReducers нужны чтобы обработать orderRequestAsync(запрос на сервер)
@@ -143,5 +147,5 @@ const orderSlice = createSlice({
 
 
 
-export const { addProduct, removeProduct } = orderSlice.actions;  // вытащили редьюсеры addProduct, removeProduct из orderSlice.actions
+export const { addProduct, removeProduct, clearOrder } = orderSlice.actions;  // вытащили редьюсеры addProduct, removeProduct из orderSlice.actions
 export default orderSlice.reducer;  // здесь экспортируем, а в index.js импортруем как orderReducer
