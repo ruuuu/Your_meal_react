@@ -53,7 +53,7 @@ const orderSlice = createSlice({
       name: 'order',                            // название  action, в Redux  будет отображаться как order/addProduct
       initialState: initialState,
       reducers: {                   // здесь будут редьюеры: 
-            // редьюсер:
+            // редьюсер. Они меняют значения полей state :
             addProduct: (state, action) => {  //  при нажатии на кноку Добавить у товара, вызовется эта фукнция
                   //console.log('action.payload in orderSlice ', action.payload);                  // [{id: 323423}  ]
                   //console.log('...action.payload in orderSlice ', { ...action.payload });        // {id: 323423}

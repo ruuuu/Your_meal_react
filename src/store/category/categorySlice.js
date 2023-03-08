@@ -42,7 +42,7 @@ const categorySlice = createSlice({
       name: 'category',                                           //  название state, сами придумали.  в Redux  будет отображаться как category/changeCategory
       initialState: initialState,
       reducers: {                               // здесь будут редьюсеры:
-            // редьюсер:
+            // редьюсер. Они меняют значения полей state :
             changeCategory(state, action) {     //  Делает выбранную  категрию активной, changeCategory()=>{} это action
                   //console.log('state in categorySlice ', state);
                   //console.log('action in categorySlice ', action);

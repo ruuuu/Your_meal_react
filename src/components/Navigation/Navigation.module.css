@@ -11,7 +11,7 @@
       display: flex;
       padding: 0 calc((100vw / 2) - (var(--container) / 2));
       flex-wrap: wrap;
-      /* overflow-x: auto;
+      /* overflow-x: auto; // для гор скролла
       overflow-y: hidden; */
       gap: 8px;
 }

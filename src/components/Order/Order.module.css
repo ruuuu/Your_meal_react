@@ -1,5 +1,8 @@
 .order {
       position: relative;
+      /* чтобы меню было сверху: */
+      z-index: 2;
+
 }
 
 .wrapper {

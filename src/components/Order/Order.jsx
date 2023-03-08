@@ -6,8 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { orderRequestAsync } from '../../store/order/orderSlice.js';
 import { openModal } from '../../store/modalDelivery/modalDeliverySlice.js';
+import { useState } from 'react';
+import classNames from 'classnames';
 
-console.log('style ', style);
 
 // const OrderList = ['Супер сырный', 'Картошка фри', 'Жгучий хот дог'];
 
@@ -22,6 +23,10 @@ export const Order = () => {
       });
 
       const dispatch = useDispatch();                                                     //  чтобы получить action и с помщью него вызываем редьюсер . Вернет фукнцию
+      // создаем state openOrder - отркрыта корзина или нет, setOpenOrder это фукнция:
+      const [openOrder, setOpenOrder] = useState(false); // openOrder=false то есть закрыт
+      console.log('openOrder ', openOrder);
+
 
       useEffect(() => {
             dispatch(orderRequestAsync());                                                // отппавляем запрос на сервер чеерз orderRequestAsync()
@@ -30,9 +35,13 @@ export const Order = () => {
 
 
       return (
-            <div className={style.order}>
+            <div className={classNames(style.order, openOrder ? style.order_open : '') /**/}>
                   <section className={style.wrapper}>
-                        <div className={style.header} tabIndex="0" role="button">
+                        <div className={style.header} tabIndex="0" role="button"
+                              onClick={() => {
+                                    setOpenOrder(!openOrder); // при клике, корзина будет открыться/закрываться
+                              }}
+                        >
                               <h2 className={style.title}>Корзина</h2>
                               <span className={style.count}>{totalCount}</span>
                         </div>

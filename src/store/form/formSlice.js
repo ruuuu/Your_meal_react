@@ -15,6 +15,10 @@ const initialState = {
       address: '',
       floor: '',
       intercom: '',
+      error: null,
+      errors: {}, // ошибки валидации
+      touch: false, // заполняли форму или нет
+
 };
 
 
@@ -54,12 +58,22 @@ const formSlice = createSlice({
       name: 'form',                 // нзв action
       initialState: initialState,
       reducers: {
-            // редьюсер :
+            // редьюсер.  Они меняют значения полей state :
             updateFormValue: (state, action) => {
                   //  action.payload.field выдаст значение  атрибута name у поля
                   //  action.payload.value выдаст значение этого полч 
                   console.log('action.payload ', action.payload);   // { field: 'phone', value: '877565464564' }
                   state[action.payload.field] = action.payload.value;
+            },
+            setError: (state, action) => {
+                  console.log('action.payload in setError() ', action.payload)
+                  state.errors = action.payload;
+            },
+            clearError: (state) => { // очищаем ошибки валидации
+                  state.errors = {};
+            },
+            changeTouch: (state) => { // меняем Заполняли форму или нет
+                  state.touch = true;
             }
       },
       // extraReducers нужны чтобы обработать orderRequestAsync(запрос на сервер):
@@ -83,5 +97,43 @@ const formSlice = createSlice({
 
 
 
-export const { updateFormValue } = formSlice.actions;  // вытащили редьюсер updateFormValue
+export const { updateFormValue, setError, clearError, changeTouch } = formSlice.actions;  // вытащили редьюсеры updateFormValue setError, clearError, changeTouch
 export default formSlice.reducer;
+
+
+// validateForm - фукнция котрпая возращает функцию:
+export const validateForm = () => (dispatch, getState) => {  // функция getState возвращает state
+      const form = getState().form;       // получили form из store(в index.js)
+      const errors = {};                  // начальное значеение, ниже заполняем объект своствами.  Ошибки валдиации
+
+
+      if (!form.name) {                   // если поле пустое 
+            errors.name = 'name field can not be empty';
+      }
+      if (!form.phone) {
+            errors.phone = 'phone field can not be empty';
+      }
+
+      if (!form.address && form.format === 'delivery') {
+            errors.address = 'address field can not be empty';
+      }
+      if (!form.floor && form.format === 'delivery') {
+            errors.floor = 'floor field can not be empty';
+      }
+      if (!form.intercom && form.format === 'delivery') {
+            errors.intercom = 'intercom field can not be empty';
+      }
+
+
+
+      if (Object.keys.length) {    //  если в объект errors ={} не пустой(то есть есть ошибки)
+            dispatch(setError(errors)); // диспатчим  state
+      }
+      else {
+            dispatch(clearError()); // очищваем errors
+      }
+
+
+
+
+}
