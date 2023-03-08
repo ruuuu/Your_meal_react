@@ -4,7 +4,8 @@ import style from './ModalDelivery.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../store/modalDelivery/modalDeliverySlice.js';
 import { submitForm, updateFormValue } from '../../store/form/formSlice.js';
-
+import { validateForm } from '../../store/form/formSlice.js';
+import { changeTouch } from '../../store/form/formSlice.js';
 
 
 // форма отправки данных на сервер:
@@ -13,21 +14,33 @@ export const ModalDelivery = () => {
   // деструткризация:
   const { isOpen } = useSelector((state) => state.modal);  // useSelector -хук;  state.isOpen  взяли из itinitialState ModalDeliverySlice.js
   const form = useSelector((state) => state.form);
-  //console.log('form ', form);
-  // console.log('...form ', ...form);
+
+  console.log('form in ModalDelivery ', form);  // { name: 'Rufina' , format: 'delivery', address: ,  floor: ,  touch: , error: , errors: }
+  //console.log('form ', ...form);
+
   const dispatch = useDispatch();                                 //  чтобы получить action. Вернет фукнцию
-  const { orderList } = useSelector((state) => state.order);          // orderList = [ {id, count}, {id, count} ]
+  const { orderList } = useSelector((state) => state.order);          // корзина  orderList = [ {id, count}, {id, count} ]
 
 
   const handleInputChange = (evt) => {          // при вводе в поля ввода, вызовется  эта функция  
     dispatch(updateFormValue({ field: evt.target.name, value: evt.target.value }));     // первый параметр это  значние атрибута name у поля
+    dispatch(validateForm());
+
   };
 
 
 
-  const handleSubmit = (evt) => {         // при отпраке формы, вызовется эта фукнция
+  const handleSubmit = (evt) => {         // при отправке формы(нажатие на кнопку Отправить), вызовется эта фукнция(отправка данных на сервер)
     evt.preventDefault();                 // чтобы  после отправки формы, станица не перезграужалась
-    dispatch(submitForm({ ...form, orderList }));                           // диспатчим action
+    dispatch(validateForm());
+
+    console.log('form.errors ', form.errors);                 // { name: 'name can not be ampty',  address: 'address can not be empty' }
+
+    if (Object.keys(form.errors).length === 0 && form.touch) {                // если ошибок валидации нет и заполняли форму
+      dispatch(submitForm({ ...form, orderList }));                           // диспатчим action
+    }
+
+    dispatch(changeTouch());
   };
 
 
@@ -74,11 +87,15 @@ export const ModalDelivery = () => {
             </form>
 
             <button className={style.submit} type='submit' form='delivery'>Оформить</button>
+            {form.touch && Object.entries(form.errors).map(([key, val]) => {  // Object.entries превращает объект в массив  form.errors =  [ ['name', 'name cannnot be empty'], ['address', 'address cannot be empty'], [] ]и перебираем его
+              return <p key={key}>{val}</p>        // указали key чтобы реакт не ругался
+            })}
           </div>
 
           <button className={style.modal__close} type='button' onClick={() => { // пр нажатии на эту кнпоку, вызовется closeModal()
             dispatch(closeModal());
           }}>
+
             <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>
               <rect x='5.07422' y='5.28247' width='1' height='20' transform='rotate(-45 5.07422 5.28247)' />
               <rect x='5.78125' y='19.4246' width='1' height='20' transform='rotate(-135 5.78125 19.4246)' />

@@ -6,7 +6,7 @@ import { closeModal } from "../modalDelivery/modalDeliverySlice.js";
 
 
 
-
+// нача  значения  state
 const initialState = {
       //  поля формы:
       name: '',
@@ -58,7 +58,7 @@ const formSlice = createSlice({
       name: 'form',                 // нзв action
       initialState: initialState,
       reducers: {
-            // редьюсер.  Они меняют значения полей state :
+            // редьюсер.  Они меняют значения полей  у inirialState :
             updateFormValue: (state, action) => {
                   //  action.payload.field выдаст значение  атрибута name у поля
                   //  action.payload.value выдаст значение этого полч 
@@ -66,13 +66,13 @@ const formSlice = createSlice({
                   state[action.payload.field] = action.payload.value;
             },
             setError: (state, action) => {
-                  console.log('action.payload in setError() ', action.payload)
+                  console.log('action.payload in setError() ', action.payload);           // { floor: 'floor can not be empty',  intercome: 'intercome can not be empty' }
                   state.errors = action.payload;
             },
             clearError: (state) => { // очищаем ошибки валидации
                   state.errors = {};
             },
-            changeTouch: (state) => { // меняем Заполняли форму или нет
+            changeTouch: (state) => { // выясняем  Заполняли форму или нет
                   state.touch = true;
             }
       },
@@ -102,8 +102,9 @@ export default formSlice.reducer;
 
 
 // validateForm - фукнция котрпая возращает функцию:
-export const validateForm = () => (dispatch, getState) => {  // функция getState возвращает state
+export const validateForm = () => (dispatch, getState) => {                   // функция getState возвращает state
       const form = getState().form;       // получили form из store(в index.js)
+      console.log('form ', form);
       const errors = {};                  // начальное значеение, ниже заполняем объект своствами.  Ошибки валдиации
 
 
@@ -124,13 +125,18 @@ export const validateForm = () => (dispatch, getState) => {  // функция g
             errors.intercom = 'intercom field can not be empty';
       }
 
+      if (form.delivery === 'pickup') {
+            dispatch(updateFormValue({ field: 'address', value: '' })); //  очищем поле address
+            dispatch(updateFormValue({ field: 'floor', value: '' }));
+            dispatch(updateFormValue({ field: 'intercom', value: '' }));
+      }
 
 
       if (Object.keys.length) {    //  если в объект errors ={} не пустой(то есть есть ошибки)
-            dispatch(setError(errors)); // диспатчим  state
+            dispatch(setError(errors)); // обновляем state.errors
       }
       else {
-            dispatch(clearError()); // очищваем errors
+            dispatch(clearError()); // state.errors = {} то етсь очищаем
       }
 
 
